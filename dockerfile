@@ -30,7 +30,8 @@ RUN pip install cmake ninja
 RUN pip uninstall -y torch torchvision
 
 # Build pytorch
-RUN wget https://github.com/pytorch/pytorch/releases/download/v2.0.1/pytorch-v2.0.1.tar.gz \
+RUN cd /SD/patched \
+	&& wget https://github.com/pytorch/pytorch/releases/download/v2.0.1/pytorch-v2.0.1.tar.gz \
 	&& tar -xzvf pytorch-v2.0.1.tar.gz \
 	&& rm -f pytorch-v2.0.1.tar.gz \
 	&& cd /SD/patched/pytorch-v2.0.1 \
