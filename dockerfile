@@ -23,14 +23,15 @@ ENV HIP_VISIBLE_DEVICES=0 \
 	USE_CUDA=0
 
 # Setup patched folder & compile dependencies 
-RUN mkdir -p /SD/patched
 RUN pip install cmake ninja
 
 # Remove old torch and torchvision
 RUN pip uninstall -y torch torchvision
 
 # Build pytorch
-RUN cd /SD/patched \
+
+RUN mkdir patched \
+	&& cd patched \
 	&& wget https://github.com/pytorch/pytorch/releases/download/v2.0.1/pytorch-v2.0.1.tar.gz \
 	&& tar -xzvf pytorch-v2.0.1.tar.gz \
 	&& rm -f pytorch-v2.0.1.tar.gz \
@@ -38,14 +39,18 @@ RUN cd /SD/patched \
 	&& pip install -r requirements.txt \
 	&& pip install mkl mkl-include \
 	&& python3 tools/amd_build/build_amd.py \
-	&& python3 setup.py install
+	&& python3 setup.py install \
+	&& cd .. && rm -rf patched
 
 # Build torchvision
-RUN cd /SD/patched/ \
+RUN mkdir vision \
+	&& cd vision \
 	&& wget https://github.com/pytorch/vision/archive/refs/tags/v0.15.2.tar.gz \
 	&& tar -xzvf v0.15.2.tar.gz \
-	&& cd /SD/patched/vision-0.15.2 \
-	&& python3 setup.py install
+	&& rm -f v0.15.2.tar.gz \
+	&& cd vision-0.15.2 \
+	&& python3 setup.py install \
+	&& cd .. && rm -rf vision
 
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
 WORKDIR /SD/stable-diffusion-webui
