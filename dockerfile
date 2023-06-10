@@ -1,4 +1,3 @@
-#FROM rocm/composable_kernel:ck_ub20.04_rocm5.5_release
 FROM rocm/dev-ubuntu-22.04:5.5.1-complete
 
 RUN apt-get update && apt-get install -y python3-venv python3-dev git build-essential wget
@@ -6,8 +5,6 @@ RUN apt-get update && apt-get install -y python3-venv python3-dev git build-esse
 # Make a working directory
 RUN mkdir /SD
 WORKDIR /SD
-
-RUN python3 -m venv venv
 
 # Create a virtual env
 # @HUH: Do we actually need this? It's a container
@@ -72,4 +69,4 @@ EXPOSE 7860/tcp
 
 # Fix for "detected dubious ownership in repository" by rom1win.
 RUN git config --global --add safe.directory '*'
-CMD python3 launch.py --listen --disable-safe-unpickle
+ENTRYPOINT [ "python3", "launch.py", "--listen", "--disable-safe-unpickle" ]
