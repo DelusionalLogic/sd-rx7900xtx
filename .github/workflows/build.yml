@@ -20,4 +20,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: delusional/sd-7900xtx:latest
+          tags: delusional/sd-rx7900xtx:latest
