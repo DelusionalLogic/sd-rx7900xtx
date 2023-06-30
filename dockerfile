@@ -1,4 +1,4 @@
-FROM rocm/dev-ubuntu-22.04:5.5.1-complete
+FROM rocm/dev-ubuntu-22.04:5.6-complete
 
 RUN apt-get update && apt-get install -y python3-venv python3-dev git build-essential wget
 
