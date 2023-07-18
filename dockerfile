@@ -1,6 +1,7 @@
 FROM rocm/dev-ubuntu-22.04:5.6-complete
 
-RUN apt-get update && apt-get install -y python3-venv python3-dev git build-essential wget
+RUN apt-get update \
+	&& apt-get install -y python3-venv python3-dev git build-essential wget libgoogle-perftools4
 
 # Make a working directory
 RUN mkdir /SD
@@ -46,7 +47,7 @@ RUN mkdir vision \
 	&& tar -xzvf v0.15.2.tar.gz \
 	&& rm -f v0.15.2.tar.gz \
 	&& cd vision-0.15.2 \
-	&& python3 setup.py install \
+	&& FORCE_CUDA=1 python3 setup.py install \
 	&& cd .. && rm -rf vision
 
 RUN git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui
@@ -69,4 +70,7 @@ EXPOSE 7860/tcp
 
 # Fix for "detected dubious ownership in repository" by rom1win.
 RUN git config --global --add safe.directory '*'
+# Workaround for some memory problems
+# (see https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/9593)
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libtcmalloc.so.4 
 ENTRYPOINT [ "python3", "launch.py", "--listen", "--disable-safe-unpickle" ]
