@@ -55,9 +55,11 @@ WORKDIR /SD/stable-diffusion-webui
 # RUN git reset --hard 22bcc7be428c94e9408f589966c2040187245d81
 
 # Patch requirements.txt to remove torch
-RUN sed '/torch/d' requirements.txt
-RUN pip install -r requirements.txt
+RUN sed '/torch/d' requirements.txt \
+	pip install -r requirements.txt
 
+# @HACK Fix the version ourselves
+RUN echo "httpx==0.24.1" >> requirements_versions.txt
 
 # Move the settings file so we can mount it
 RUN mkdir /SD/stable-diffusion-webui/settings && \
