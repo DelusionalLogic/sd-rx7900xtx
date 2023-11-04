@@ -56,7 +56,7 @@ WORKDIR /SD/stable-diffusion-webui
 
 # Patch requirements.txt to remove torch
 RUN sed '/torch/d' requirements.txt \
-	pip install -r requirements.txt
+	&& pip install -r requirements.txt
 
 # @HACK Fix the version ourselves
 RUN echo "httpx==0.24.1" >> requirements_versions.txt
