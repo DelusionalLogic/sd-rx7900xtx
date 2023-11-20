@@ -30,10 +30,10 @@ RUN pip uninstall -y torch torchvision
 
 RUN mkdir patched \
 	&& cd patched \
-	&& wget https://github.com/pytorch/pytorch/releases/download/v2.1.0/pytorch-v2.1.0.tar.gz \
-	&& tar -xzf pytorch-v2.1.0.tar.gz \
-	&& rm -f pytorch-v2.1.0.tar.gz \
-	&& cd /SD/patched/pytorch-v2.1.0 \
+	&& wget https://github.com/pytorch/pytorch/releases/download/v2.1.1/pytorch-v2.1.1.tar.gz \
+	&& tar -xzf pytorch-v2.1.1.tar.gz \
+	&& rm -f pytorch-v2.1.1.tar.gz \
+	&& cd /SD/patched/pytorch-v2.1.1 \
 	&& pip install -r requirements.txt \
 	&& pip install mkl mkl-include \
 	&& python3 tools/amd_build/build_amd.py \
@@ -43,10 +43,10 @@ RUN mkdir patched \
 # Build torchvision
 RUN mkdir vision \
 	&& cd vision \
-	&& wget https://github.com/pytorch/vision/archive/refs/tags/v0.16.0.tar.gz \
-	&& tar -xzf v0.16.0.tar.gz \
-	&& rm -f v0.16.0.tar.gz \
-	&& cd vision-0.16.0 \
+	&& wget https://github.com/pytorch/vision/archive/refs/tags/v0.16.1.tar.gz \
+	&& tar -xzf v0.16.1.tar.gz \
+	&& rm -f v0.16.1.tar.gz \
+	&& cd vision-0.16.1 \
 	&& FORCE_CUDA=1 python3 setup.py install \
 	&& cd .. && rm -rf vision
 
